@@ -11,7 +11,7 @@ const NAMESPACE = 'Server';
 router.use(cors());
 
 router.use((req, res, next) => {
-  // TODO need to be predefined on production
+  // TODO need to be refined on production
   res.header('Access-Control-Allow-Origin', '*');
   res.header(
     'Access-Control-Allow-Headers',

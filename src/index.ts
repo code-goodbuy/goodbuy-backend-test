@@ -7,6 +7,7 @@ import logging from './config/logging';
 const router = express();
 const PORT = process.env.PORT || 1337;
 const VERSION = process.env.VERSION || '1.0.0';
+const ENVIRONMENT = process.env.NODE_ENV || 'development';
 const NAMESPACE = 'Server';
 
 // Configurations
@@ -34,7 +35,9 @@ router.use((req, res, next) => {
 
 // Endpoints
 // ========================================
-router.get('/', (req, res) => res.send({ version: VERSION }));
+router.get('/', (req, res) =>
+  res.send({ version: VERSION, environment: ENVIRONMENT })
+);
 
 // Server
 // ========================================

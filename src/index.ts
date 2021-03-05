@@ -1,6 +1,10 @@
+import http from 'http';
 import express from 'express';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
 import cors from 'cors';
 import logging from './config/logging';
+import config from './config/config';
 
 const router = express();
 const PORT = process.env.PORT || 1337;
@@ -9,6 +13,16 @@ const ENVIRONMENT = process.env.NODE_ENV || 'development';
 const NAMESPACE = 'Server';
 
 router.use(cors());
+
+// Connect to MongoDB
+mongoose
+  .connect(config.mongo.url, config.mongo.options)
+  .then((result) => {
+    logging.info(NAMESPACE, 'Connected to mongoDB.');
+  })
+  .catch((error) => {
+    logging.error(NAMESPACE, error.message, error);
+  });
 
 router.use((req, res, next) => {
   // TODO need to be refined on production
@@ -22,7 +36,6 @@ router.use((req, res, next) => {
     res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
     return res.status(200).json({});
   }
-
   next();
 });
 

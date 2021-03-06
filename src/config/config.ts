@@ -9,7 +9,7 @@ const MONGO_OPTIONS = {
   socketTimeoutMS: 300000,
   keepAlive: true,
   poolSize: 50,
-  autoIndex: false,
+  autoIndex: true,
   retryWrites: false
 };
 

@@ -79,6 +79,13 @@
     "@types/qs" "*"
     "@types/range-parser" "*"
 
+"@types/express-validator@^3.0.0":
+  "integrity" "sha512-LusnB0YhTXpBT25PXyGPQlK7leE1e41Vezq1hHEUwjfkopM1Pkv2X2Ppxqh9c+w/HZ6Udzki8AJotKNjDTGdkQ=="
+  "resolved" "https://registry.npmjs.org/@types/express-validator/-/express-validator-3.0.0.tgz"
+  "version" "3.0.0"
+  dependencies:
+    "express-validator" "*"
+
 "@types/express@^4.17.6":
   "integrity" "sha512-no+R6rW60JEc59977wIxreQVsIEOAYwgCqldrA/vkpCnbD7MqTefO97lmoBe4WE0F156bC4uLSP1XHDOySnChg=="
   "resolved" "https://registry.yarnpkg.com/@types/express/-/express-4.17.11.tgz"
@@ -749,6 +756,14 @@
   "integrity" "sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc="
   "resolved" "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz"
   "version" "1.8.1"
+
+"express-validator@*", "express-validator@^6.10.0":
+  "integrity" "sha512-gDtepU94EpUzgFvKO/8JzjZ4uqIF4xHekjYtcNgFDiBK6Hob3MQhPU8s/c3NaWd1xi5e5nA0oVmOJ0b0ZBO36Q=="
+  "resolved" "https://registry.npmjs.org/express-validator/-/express-validator-6.10.0.tgz"
+  "version" "6.10.0"
+  dependencies:
+    "lodash" "^4.17.20"
+    "validator" "^13.5.2"
 
 "express@^4.17.1":
   "integrity" "sha512-mHJ9O79RqluphRrcw2X/GTh3k9tVv8YcoyY4Kkh4WDMUYKRZUq0h1o0w2rrrxBqM7VoeUVqgb27xlEMXTnYt4g=="
@@ -1977,6 +1992,11 @@
   dependencies:
     "spdx-correct" "^3.0.0"
     "spdx-expression-parse" "^3.0.0"
+
+"validator@^13.5.2":
+  "integrity" "sha512-mD45p0rvHVBlY2Zuy3F3ESIe1h5X58GPfAtslBjY7EtTqGquZTj+VX/J4RnHWN8FKq0C9WRVt1oWAcytWRuYLQ=="
+  "resolved" "https://registry.npmjs.org/validator/-/validator-13.5.2.tgz"
+  "version" "13.5.2"
 
 "vary@^1", "vary@~1.1.2":
   "integrity" "sha1-IpnwLG3tMNSllhsLn3RSShj2NPw="

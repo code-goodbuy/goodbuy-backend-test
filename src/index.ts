@@ -3,8 +3,12 @@ import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+
+// config
 import logging from './config/logging';
 import config from './config/config';
+
+// routes
 import sampleRoutes from './routes/sample';
 import productRoutes from './routes/product';
 import userRoutes from './routes/user';

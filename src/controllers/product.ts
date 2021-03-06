@@ -4,11 +4,26 @@ import mongoose from 'mongoose';
 
 const getAllProducts = (req: Request, res: Response, next: NextFunction) => {
   Product.find()
+    // .select('_id name brand corporation barcode state')
     .exec()
     .then((results) => {
       return res.status(200).json({
-        products: results,
-        count: results.length
+        count: results.length,
+        products: results.map((product) => {
+          return {
+            _id: product._id,
+            name: product.name,
+            brand: product.brand,
+            corporation: product.corporation,
+            state: product.state,
+            request: {
+              type: 'GET',
+              url:
+                'http://localhost:1337/api/products/get/product/' + product._id
+              // for finding product later, change address to config env
+            }
+          };
+        })
       });
     })
     .catch((error) => {
@@ -30,6 +45,7 @@ const createProduct = (req: Request, res: Response, next: NextFunction) => {
     state,
     extraInformation
   });
+
   return product
     .save()
     .then((result) => {

@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import logging from './config/logging';
 import config from './config/config';
+import sampleRoutes from './routes/sample';
 
 const router = express();
 const PORT = process.env.PORT || 1337;
@@ -57,6 +58,12 @@ router.use((req, res, next) => {
   next();
 });
 
+// routes
+router.get('/', (req, res) =>
+  res.send({ version: VERSION, environment: ENVIRONMENT })
+);
+router.use('/sample', sampleRoutes);
+
 // Error handling
 router.use((req, res, next) => {
   const error = new Error('Not found');
@@ -64,11 +71,6 @@ router.use((req, res, next) => {
     message: error.message
   });
 });
-
-// routing
-router.get('/', (req, res) =>
-  res.send({ version: VERSION, environment: ENVIRONMENT })
-);
 
 // create server
 const httpServer = http.createServer(router);

@@ -6,7 +6,7 @@
   "license": "",
   "scripts": {
     "dev": "export PORT=5000 && ts-node-dev src/index.ts",
-    "start": "export NODE_ENV=production && ts-node src/index.ts"
+    "start": "export NODE_ENV=production && nodemon src/index.ts"
   },
   "dependencies": {
     "@types/body-parser": "^1.19.0",

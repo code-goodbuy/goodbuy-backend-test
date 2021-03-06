@@ -12,8 +12,6 @@ const VERSION = process.env.VERSION || '1.0.0';
 const ENVIRONMENT = process.env.NODE_ENV || 'development';
 const NAMESPACE = 'Server';
 
-router.use(cors());
-
 // Connect to MongoDB
 mongoose
   .connect(config.mongo.url, config.mongo.options)
@@ -24,9 +22,29 @@ mongoose
     logging.error(NAMESPACE, error.message, error);
   });
 
+// logging the request
 router.use((req, res, next) => {
-  // TODO need to be refined on production
-  res.header('Access-Control-Allow-Origin', '*');
+  logging.info(
+    NAMESPACE,
+    `METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`
+  );
+  res.on('finish', () => {
+    logging.info(
+      NAMESPACE,
+      `METHOD: [${req.method}] - URL: [${req.url}] - STATUS: [${res.statusCode}] - IP: [${req.socket.remoteAddress}]`
+    );
+  });
+  next();
+});
+
+// parse the request
+router.use(cors());
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json());
+
+// rule for API
+router.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*'); // TODO '*' needs to be fixed on production
   res.header(
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
@@ -39,25 +57,24 @@ router.use((req, res, next) => {
   next();
 });
 
+// Error handling
 router.use((req, res, next) => {
-  logging.info(
-    NAMESPACE,
-    `METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`
-  );
-
-  res.on('finish', () => {
-    logging.info(
-      NAMESPACE,
-      `METHOD: [${req.method}] - URL: [${req.url}] - STATUS: [${res.statusCode}] - IP: [${req.socket.remoteAddress}]`
-    );
+  const error = new Error('Not found');
+  res.status(404).json({
+    message: error.message
   });
-  next();
 });
 
+// routing
 router.get('/', (req, res) =>
   res.send({ version: VERSION, environment: ENVIRONMENT })
 );
 
-router.listen(PORT, () => console.log(`Listening on port ${PORT}`));
-
-// TODO change main AWS account to one of IAM USER not main one
+// create server
+const httpServer = http.createServer(router);
+httpServer.listen(config.server.port, () =>
+  logging.info(
+    NAMESPACE,
+    `Server is running on ${config.server.hostname}:${config.server.port}`
+  )
+);

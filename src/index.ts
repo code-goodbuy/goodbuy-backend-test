@@ -1,11 +1,12 @@
 import http from 'http';
 import express from 'express';
-import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import logging from './config/logging';
 import config from './config/config';
 import sampleRoutes from './routes/sample';
+import productRoutes from './routes/product';
+import mongoose from 'mongoose';
 
 const router = express();
 const PORT = process.env.PORT || 1337;
@@ -62,7 +63,9 @@ router.use((req, res, next) => {
 router.get('/', (req, res) =>
   res.send({ version: VERSION, environment: ENVIRONMENT })
 );
-router.use('/sample', sampleRoutes);
+router.use('/api/sample', sampleRoutes);
+router.use('/api/products', productRoutes);
+
 
 // Error handling
 router.use((req, res, next) => {

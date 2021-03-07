@@ -3,6 +3,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import morgan from 'morgan';
 
 // config
 import logging from './config/logging';
@@ -44,10 +45,12 @@ router.use((req, res, next) => {
   next();
 });
 
-// parse the request
+router.disable('x-powered-by');
 router.use(cors());
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
+router.use(morgan('dev'));
+
 
 // rule for API
 router.use((req, res, next) => {

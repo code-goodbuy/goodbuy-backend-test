@@ -36,8 +36,7 @@ const getAllProducts = (req: Request, res: Response) => {
 };
 
 const getProduct = (req: Request, res: Response) => {
-  const barcode = req.params.barcode;
-  Product.find({ barcode: barcode })
+  Product.find({ barcode: req.params.barcode })
     .then((product) => {
       res.status(200).json({ product: product });
     })
@@ -60,7 +59,6 @@ const createProduct = (req: Request, res: Response) => {
     state,
     extraInformation
   });
-
   return product
     .save()
     .then((result) => {
@@ -76,4 +74,17 @@ const createProduct = (req: Request, res: Response) => {
     });
 };
 
-export default { getAllProducts, getProduct, createProduct };
+const deleteProduct = (req: Request, res: Response) => {
+  Product.deleteOne({ barcode: req.params.barcode })
+    .then((product) => {
+      res.status(200).json({ product: product });
+    })
+    .catch((error) => {
+      return res.status(500).json({
+        message: error.message,
+        error
+      });
+    });
+};
+
+export default { getAllProducts, getProduct, createProduct, deleteProduct };

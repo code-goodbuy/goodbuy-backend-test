@@ -9,5 +9,7 @@ router.get('/get/products', controller.getAllProducts);
 router.get('/get/product/:barcode', controller.getProduct);
 // create one product
 router.post('/create/product', controller.createProduct);
+// delete one product by barcode param
+router.delete('/delete/product:barcode', controller.deleteProduct);
 
 export = router;

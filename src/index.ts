@@ -45,37 +45,40 @@ router.use((req, res, next) => {
   next();
 });
 
+/* ======================================================================================== */
+// order matters top to bottom
+// middleware stack
 router.disable('x-powered-by');
-router.use(cors());
-router.use(bodyParser.urlencoded({ extended: true }));
-router.use(bodyParser.json());
-router.use(morgan('dev'));
-
-
+router.use(cors()); // cors middleware allows API approachable to other domains
+router.use(morgan('dev')); // logging middleware
+router.use(bodyParser.urlencoded({ extended: true })); // allow attaching params to a URL
+router.use(bodyParser.json()); // bodyParser deprecated
 // rule for API
 router.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*'); // TODO '*' needs to be fixed on production
+  // TODO '*' needs to be fixed on production - now it's accepting everything
+  res.header('Access-Control-Allow-Origin', '*');
   res.header(
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   );
-
   if (req.method == 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
     return res.status(200).json({});
   }
   next();
 });
+/* ======================================================================================== */
 
 // routes
 router.get('/', (req, res) =>
   res.send({ version: VERSION, environment: ENVIRONMENT })
 );
+// mounted routes
 router.use('/api/sample', sampleRoutes);
 router.use('/api/products', productRoutes);
 router.use('/api/users', userRoutes);
 
-// Error handling
+// Error handling - should be the last of middleware order
 router.use((req, res, next) => {
   const error = new Error('Not found');
   res.status(404).json({

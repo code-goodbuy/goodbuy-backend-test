@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import Product from '../models/product';
 import mongoose from 'mongoose';
 
-const getAllProducts = (req: Request, res: Response, next: NextFunction) => {
+const getAllProducts = (req: Request, res: Response) => {
   Product.find()
     // .select('_id name brand corporation barcode state')
     .exec()
@@ -15,6 +15,7 @@ const getAllProducts = (req: Request, res: Response, next: NextFunction) => {
             name: product.name,
             brand: product.brand,
             corporation: product.corporation,
+            barcode: product.barcode,
             state: product.state,
             request: {
               type: 'GET',
@@ -34,7 +35,21 @@ const getAllProducts = (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
-const createProduct = (req: Request, res: Response, next: NextFunction) => {
+const getProduct = (req: Request, res: Response) => {
+  const barcode = req.params.barcode;
+  Product.find({ barcode: barcode })
+    .then((product) => {
+      res.status(200).json({ product: product });
+    })
+    .catch((error) => {
+      return res.status(500).json({
+        message: error.message,
+        error
+      });
+    });
+};
+
+const createProduct = (req: Request, res: Response) => {
   let { name, brand, corporation, barcode, state, extraInformation } = req.body;
   const product = new Product({
     _id: new mongoose.Types.ObjectId(),
@@ -61,4 +76,4 @@ const createProduct = (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
-export default { getAllProducts, createProduct };
+export default { getAllProducts, getProduct, createProduct };

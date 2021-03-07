@@ -28,20 +28,4 @@ MONGO_URL=
 
 # API
 
-1. sample route health check:
-
-- /sample/ping
-
-2. products
-
-- get all products
-  - /api/products/get/products
-- create a product
-  - /api/products/create/product
-
-3. users
-
-- get all users
-  - /api/users/get/users
-- create a user
-  - /api/users/create/user
+sample route health check: /sample/ping

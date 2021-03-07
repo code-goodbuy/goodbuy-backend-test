@@ -75,6 +75,7 @@ const createProduct = (req: Request, res: Response) => {
     });
 };
 
+// TODO fix the response
 const deleteProduct = (req: Request, res: Response) => {
   Product.deleteOne({ barcode: req.params.barcode })
     .exec()

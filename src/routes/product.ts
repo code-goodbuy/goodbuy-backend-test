@@ -13,3 +13,4 @@ router.post('/create/product', controller.createProduct);
 router.delete('/delete/product/:barcode', controller.deleteProduct);
 
 export = router;
+ 
